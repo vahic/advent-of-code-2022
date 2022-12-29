@@ -14,6 +14,7 @@ function parse_round(roundData:string):Round {
         .run();
 
         
+    //TODO: adapt this to part2 parsing change
     const yourChoice = match(yourLetter)
         .with('X', () => HandShape.Rock)
         .with('Y', () => HandShape.Paper)
