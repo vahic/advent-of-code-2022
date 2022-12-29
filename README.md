@@ -9,7 +9,7 @@ This year, I will use Deno + Typescript.
 Using ESM.sh, we can easily install packages from NPM by running
 
 ```sh
-deno task npm:add my-package
+deno task asm:add my-package
 ```
 
-[as described here](https://esm.sh/#use-cli-script)
+[as described here](https://esm.sh/#cli)
