@@ -11,6 +11,22 @@ export interface Round {
     opponentChoice: HandShape
 }
 
+export function get_counter_shape(choice:HandShape):HandShape {
+    return match(choice)
+        .with(HandShape.Rock, () => HandShape.Paper)
+        .with(HandShape.Paper, () => HandShape.Scissors)
+        .with(HandShape.Scissors, () => HandShape.Rock)
+        .exhaustive()
+}
+
+export function get_countered_shape(choice:HandShape):HandShape {
+    return match(choice)
+        .with(HandShape.Rock, () => HandShape.Scissors)
+        .with(HandShape.Paper, () => HandShape.Rock)
+        .with(HandShape.Scissors, () => HandShape.Paper)
+        .exhaustive()
+}
+
 export function score_round(round:Round):number {
     const shapeScore = match(round.yourChoice)
         .with(HandShape.Rock, () => 1)
@@ -20,13 +36,9 @@ export function score_round(round:Round):number {
 
     const isTie = round.opponentChoice === round.yourChoice
 
-    const isLost = 
-        round.yourChoice === HandShape.Rock && round.opponentChoice === HandShape.Paper ||
-        round.yourChoice === HandShape.Paper && round.opponentChoice === HandShape.Scissors ||
-        round.yourChoice === HandShape.Scissors && round.opponentChoice === HandShape.Rock;
-
+    const isWon = round.yourChoice === get_counter_shape(round.opponentChoice)
     
-    const outcomeScore = isTie ? 3 : (isLost ? 0 : 6)
+    const outcomeScore = isTie ? 3 : (isWon ? 6 : 0)
 
     return shapeScore + outcomeScore
 }

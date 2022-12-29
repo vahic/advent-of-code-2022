@@ -1,7 +1,8 @@
 import {use_day_2_input} from '../inputs/inputs.ts'
 import { match } from 'ts-pattern';
 import { sum } from "lodash";
-import { Round, HandShape, score_round } from './common.ts';
+import { Round, HandShape, score_round, get_countered_shape, get_counter_shape } from './common.ts';
+
 
 
 function parse_round(roundData:string):Round {
@@ -16,13 +17,14 @@ function parse_round(roundData:string):Round {
         
     //TODO: adapt this to part2 parsing change
     const yourChoice = match(yourLetter)
-        .with('X', () => HandShape.Rock)
-        .with('Y', () => HandShape.Paper)
-        .with('Z', () => HandShape.Scissors)
+        .with('X', () => get_countered_shape(opponentChoice)) // X = you must loose
+        .with('Y', () => opponentChoice) // Y = you must end in draw
+        .with('Z', () => get_counter_shape(opponentChoice)) // Z = you must win
         .run();
 
     return { yourChoice, opponentChoice }
 }
+
 
 const rounds = use_day_2_input().map(parse_round)
 
