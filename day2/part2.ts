@@ -15,7 +15,6 @@ function parse_round(roundData:string):Round {
         .run();
 
         
-    //TODO: adapt this to part2 parsing change
     const yourChoice = match(yourLetter)
         .with('X', () => get_countered_shape(opponentChoice)) // X = you must loose
         .with('Y', () => opponentChoice) // Y = you must end in draw
