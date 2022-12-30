@@ -1,7 +1,8 @@
 import {use_day_3_input} from '../inputs/inputs.ts'
 import {sum} from 'lodash'
+import {get_item_priority} from './common.ts'
 
-function split_string(str:string): [string, string]{
+export function split_string(str:string): [string, string]{
     const middleIndex = str.length / 2
 
     return [
@@ -23,18 +24,6 @@ function find_duplicate_item(compartmentsContent :[string, string]):string {
 
     return duplicateItem
 }
-
-function get_item_priority(item:string):number{
-    return is_uppercase(item) ?
-        item.charCodeAt(0) - 'A'.charCodeAt(0) + 27 :
-        item.charCodeAt(0) - 'a'.charCodeAt(0) + 1
-}
-
-
-function is_uppercase(str:string):boolean{
-    return str === str.toUpperCase()
-}
-
 
 const duplicateItems = use_day_3_input().map(split_string).map(find_duplicate_item)
 
