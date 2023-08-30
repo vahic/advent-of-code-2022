@@ -1,15 +1,4 @@
-import { use_day_4_input } from "../inputs/inputs.ts";
-
-interface SectionRange {
-  start: number;
-  end: number;
-}
-
-function parseSectionRange(toParse: string) {
-  const [start, end] = toParse.split("-").map(n => parseInt(n));
-
-  return { start, end };
-}
+import { SectionRange, useSectionRanges } from "./common.ts";
 
 function isFullyContainedIn(
   maybeContainee: SectionRange,
@@ -19,14 +8,8 @@ function isFullyContainedIn(
     maybeContainee.end <= maybeContainer.end;
 }
 
-const sectionRanges: SectionRange[][] = use_day_4_input().map(
-  (sectionRangesPair: string) => {
-    const sections = sectionRangesPair.split(",");
-    return sections.map(parseSectionRange);
-  },
-);
 
-const overlappingRanges = sectionRanges.filter((sectionRanges) =>
+const overlappingRanges = useSectionRanges().filter((sectionRanges) =>
   isFullyContainedIn(sectionRanges[0], sectionRanges[1]) ||
   isFullyContainedIn(sectionRanges[1], sectionRanges[0])
 )
