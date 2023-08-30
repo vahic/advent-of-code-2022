@@ -14,3 +14,9 @@ export function use_day_3_input(){
     const inputText = Deno.readTextFileSync("./inputs/day3.txt")
     return inputText.split(detectEOL(inputText) ?? "").filter(str => str.length > 0)
 }
+
+
+export function use_day_4_input(){
+    const inputText = Deno.readTextFileSync("./inputs/day4.txt")
+    return inputText.split(detectEOL(inputText) ?? "").filter(str => str.length > 0)
+}
