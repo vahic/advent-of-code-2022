@@ -39,6 +39,7 @@ function parseInstruction(instructionsText:string):Instruction {
 }
 
 function executeInstruction(stacks:Stacks, instruction:Instruction):Stacks {
+    //Crates are moved ONE AT A TIME so this don't work
     return stacks.map((stack, index) => {
         const stackNumber:number = index + 1
         if(stackNumber === instruction.from){
@@ -57,4 +58,25 @@ const instructions = instructionsText.map(parseInstruction)
 
 const finalStacks = instructions.reduce((stacks, instruction) => executeInstruction(stacks, instruction), containerStacks)
 
-console.log(finalStacks.map(stack => stack[stack.length - 1]).join(''))
+//console.log(finalStacks.map(stack => stack[stack.length - 1]).join(''))
+
+
+
+const testStacks:Stacks = [['Z', 'N'], ['M', 'C', 'D'], ['P']]
+const testInst:Instruction[] = [
+    {amount: 1, from: 2, to: 1},
+    {amount: 3, from: 1, to: 3},
+    {amount: 2, from: 2, to: 1},
+    {amount: 1, from: 1, to: 2},
+]
+
+const testFinal = testInst.reduce((stacks, instruction) => {
+    console.log(stacks)
+    return executeInstruction(stacks, instruction)
+}, testStacks)
+
+
+console.log(testFinal)
+console.log(testFinal.map(stack => stack[stack.length - 1]).join(''))
+
+
