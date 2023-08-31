@@ -1,4 +1,4 @@
-import {use_day_3_input} from '../inputs/inputs.ts'
+import {use_day_input} from '../inputs/inputs.ts'
 import {sum} from 'lodash'
 import {get_item_priority} from './common.ts'
 
@@ -25,7 +25,7 @@ function find_duplicate_item(compartmentsContent :[string, string]):string {
     return duplicateItem
 }
 
-const duplicateItems = use_day_3_input().map(split_string).map(find_duplicate_item)
+const duplicateItems = use_day_input(3).map(split_string).map(find_duplicate_item)
 
 const itemPriorities = duplicateItems.map(get_item_priority)
 

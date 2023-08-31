@@ -1,4 +1,4 @@
-import { use_day_4_input } from "../inputs/inputs.ts";
+import { use_day_input } from "../inputs/inputs.ts";
 
 export interface SectionRange {
   start: number;
@@ -11,7 +11,7 @@ function parseSectionRange(toParse: string) {
 }
 
 export function useSectionRanges(): SectionRange[][] {
-  return use_day_4_input().map(
+  return use_day_input(4).map(
     (sectionRangesPair: string) => {
       const sections = sectionRangesPair.split(",");
       return sections.map(parseSectionRange);

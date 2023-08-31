@@ -1,8 +1,8 @@
-import { use_day_1_input } from "../inputs/inputs.ts";
+import { use_day_input } from "../inputs/inputs.ts";
 import { sum } from "lodash";
 
 
-const calories = use_day_1_input().map(str => parseInt(str))
+const calories = use_day_input(1).map(str => parseInt(str))
 
 
 function split_calories_per_elf(calories: number[]):number[][]{

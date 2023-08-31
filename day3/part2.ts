@@ -1,8 +1,8 @@
-import {use_day_3_input} from '../inputs/inputs.ts'
+import {use_day_input} from '../inputs/inputs.ts'
 import {sum, chunk} from 'lodash'
 import {get_item_priority} from './common.ts'
 
-const sackContentsByGroup = chunk(use_day_3_input(), 3) as string[][]
+const sackContentsByGroup = chunk(use_day_input(3), 3) as string[][]
 
 function find_common_chars(strings:string[]):string {
 

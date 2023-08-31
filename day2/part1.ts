@@ -1,4 +1,4 @@
-import {use_day_2_input} from '../inputs/inputs.ts'
+import {use_day_input} from '../inputs/inputs.ts'
 import { match } from 'ts-pattern';
 import { sum } from "lodash";
 import { Round, HandShape, score_round } from './common.ts';
@@ -23,7 +23,7 @@ function parse_round(roundData:string):Round {
     return { yourChoice, opponentChoice }
 }
 
-const rounds = use_day_2_input().map(parse_round)
+const rounds = use_day_input(2).map(parse_round)
 
 const scores = rounds.map(score_round)
 
