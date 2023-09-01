@@ -1,82 +1,64 @@
 import { use_day_input } from "../inputs/inputs.ts";
-import { range, reverse } from "lodash";
-import { reduce } from "https://esm.sh/v102/@types/lodash@4.14.191/index";
-
+import { range } from "lodash";
 
 interface Instruction {
-    from: number,
-    to: number,
-    amount: number
+  from: number;
+  to: number;
+  amount: number;
 }
 
-type Stacks = string[][]
+type Stacks = string[][];
 
 const inputText = use_day_input(5);
 
-const containerStacksText = inputText.slice(0, 8)
+const containerStacksText = inputText.slice(0, 8);
 
-const instructionsText = inputText.slice(9)
+const instructionsText = inputText.slice(9);
 
-
-function parseStacks(stacksText:string[]):Stacks{
-    return range(1, 10).map((n: number) => {
-        return reverse( //Reverse order so the bottom of the stack is at the beginning of the array
-          stacksText
-            .map((line) => line[4 * n - 3]) // get the columns with letters in them
-            .filter((char) => char !== " "), // filter voids
-        )
-      })
+function parseStacks(stacksText: string[]): Stacks {
+  return range(1, 10).map((n: number) =>
+    stacksText
+      .map((line) => line[4 * n - 3]) // get the columns with letters in them
+      .filter((char) => char !== " ") // filter voids
+      .reverse() //Reverse order so the bottom of the stack is at the beginning of the array
+  );
 }
 
-function parseInstruction(instructionsText:string):Instruction {
-    const notADigit = /[^\d*]/g
-    const [amount, from, to] = instructionsText.split(/from|to/).map(str => str.replace(notADigit, '')).map(str => parseInt(str))
-    return {
-        amount,
-        from,
-        to
+function parseInstruction(instructionsText: string): Instruction {
+  const notADigit = /[^\d*]/g;
+  const [amount, from, to] = instructionsText.split(/from|to/).map((str) =>
+    str.replace(notADigit, "")
+  ).map((str) => parseInt(str));
+  return {
+    amount,
+    from,
+    to,
+  };
+}
+
+function executeInstruction(stacks: Stacks, instruction: Instruction): Stacks {
+  return stacks.map((stack, index) => {
+    const stackNumber: number = index + 1;
+    if (stackNumber === instruction.from) {
+      return stack.slice(0, stack.length - instruction.amount);
     }
+    if (stackNumber === instruction.to) {
+      return [
+        ...stack,
+        ...stacks[instruction.from - 1].slice(-instruction.amount).reverse(), // We need to reverse the added crates order because they are moved one at a time
+      ];
+    }
+    return stack;
+  });
 }
 
-function executeInstruction(stacks:Stacks, instruction:Instruction):Stacks {
-    //Crates are moved ONE AT A TIME so this don't work
-    return stacks.map((stack, index) => {
-        const stackNumber:number = index + 1
-        if(stackNumber === instruction.from){
-            return stack.slice(0, stack.length - instruction.amount)
-        }
-        if(stackNumber === instruction.to){
-            return [ ...stack, ...stacks[instruction.from - 1].slice(-instruction.amount) ]
-        }
-        return stack
-    })
-}
+const containerStacks = parseStacks(containerStacksText);
 
-const containerStacks = parseStacks(containerStacksText)
+const instructions = instructionsText.map(parseInstruction);
 
-const instructions = instructionsText.map(parseInstruction)
+const finalStacks = instructions.reduce(
+  (stacks, instruction) => executeInstruction(stacks, instruction),
+  containerStacks,
+);
 
-const finalStacks = instructions.reduce((stacks, instruction) => executeInstruction(stacks, instruction), containerStacks)
-
-//console.log(finalStacks.map(stack => stack[stack.length - 1]).join(''))
-
-
-
-const testStacks:Stacks = [['Z', 'N'], ['M', 'C', 'D'], ['P']]
-const testInst:Instruction[] = [
-    {amount: 1, from: 2, to: 1},
-    {amount: 3, from: 1, to: 3},
-    {amount: 2, from: 2, to: 1},
-    {amount: 1, from: 1, to: 2},
-]
-
-const testFinal = testInst.reduce((stacks, instruction) => {
-    console.log(stacks)
-    return executeInstruction(stacks, instruction)
-}, testStacks)
-
-
-console.log(testFinal)
-console.log(testFinal.map(stack => stack[stack.length - 1]).join(''))
-
-
+console.log(finalStacks.map(stack => stack[stack.length - 1]).join(''))
