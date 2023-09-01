@@ -3,4 +3,4 @@ import { countCharsBeforeMarker } from "./common.ts";
 
 const buffer = use_day_input(6);
 
-console.log(countCharsBeforeMarker(buffer, 4));
+console.log(countCharsBeforeMarker(buffer, 14));
