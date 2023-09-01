@@ -1,7 +1,9 @@
 import { use_day_input } from "../inputs/inputs.ts";
 
-const isRootSymbol = Symbol("IsRoot");
-type IsRoot = typeof isRootSymbol;
+const IsRoot = Symbol("IsRoot");
+
+const NotComputed = Symbol("NotComputed");
+
 
 interface File {
   name: string;
@@ -10,17 +12,19 @@ interface File {
 
 interface Directory {
   name: string;
-  parent: Directory | IsRoot;
+  parent: Directory | typeof IsRoot;
   childrens: Directory[];
   files: File[];
+  totalSize: typeof NotComputed | number
 }
 
 function buildFilesystemTreeFromTerminalHistory(history: string[]):Directory {
   const fsRoot: Directory = {
     name: "/",
-    parent: isRootSymbol,
+    parent: IsRoot,
     childrens: [],
     files: [],
+    totalSize: NotComputed
   };
 
   history
@@ -61,15 +65,16 @@ function changeDirectory(
 ): Directory {
   switch (destination) {
     case "..":
-      return currentDir.parent === isRootSymbol ? rootDir : currentDir.parent;
+      return currentDir.parent === IsRoot ? rootDir : currentDir.parent;
     case "/":
       return rootDir;
     default: {
-      const newDir = {
+      const newDir:Directory = {
         name: destination,
         parent: currentDir,
         childrens: [],
         files: [],
+        totalSize: NotComputed
       };
       currentDir.childrens.push(newDir);
       return newDir;
